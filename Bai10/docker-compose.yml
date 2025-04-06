@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+  db:
+    image: mysql:8
+    container_name: mysql_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: mydb
+      MYSQL_USER: myuser
+      MYSQL_PASSWORD: mypassword
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql  # Gắn volume để lưu trữ dữ liệu
+
+volumes:
+  mysql_data:  # Khai báo volume 'mysql_data'
