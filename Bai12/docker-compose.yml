@@ -1,0 +1,39 @@
+version: "3.8"
+
+services:
+  prometheus:
+    image: prom/prometheus:v2.43.0
+    container_name: prometheus
+    restart: always
+    ports:
+      - "9090:9090"  # Mở cổng 9090 để truy cập giao diện Prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml  # Gắn file cấu hình Prometheus
+    networks:
+      - monitoring
+
+  grafana:
+    image: grafana/grafana:8.5.0
+    container_name: grafana
+    restart: always
+    ports:
+      - "3000:3000"  # Mở cổng 3000 để truy cập giao diện Grafana
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: "admin"  # Đặt mật khẩu mặc định cho tài khoản admin
+    depends_on:
+      - prometheus
+    networks:
+      - monitoring
+
+  node-exporter:
+    image: prom/node-exporter:v1.5.0
+    container_name: node_exporter
+    restart: always
+    ports:
+      - "9100:9100"  # Mở cổng 9100 để thu thập số liệu hệ thống
+    networks:
+      - monitoring
+
+networks:
+  monitoring:
+    driver: bridge

@@ -1,0 +1,7 @@
+global:
+  scrape_interval: 15s  # Tần suất Prometheus thu thập số liệu
+
+scrape_configs:
+  - job_name: 'node'
+    static_configs:
+      - targets: ['node-exporter:9100']  # Lấy số liệu từ Node Exporter
